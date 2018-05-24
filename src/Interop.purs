@@ -1,4 +1,3 @@
 module Interop where
 
-message :: String
-message = "Hello sailor!"
+foreign import message :: String
