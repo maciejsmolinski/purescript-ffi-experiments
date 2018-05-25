@@ -12,8 +12,6 @@ exports.user = {
 
 exports.render = function(msg) {
   return function() {
-    if (typeof window !== 'undefined') {
-      window.document.getElementById('ps-app').innerHTML = msg;
-    }
+    document.querySelector('#ps-purs-ffi').textContent = msg;
   };
 };
