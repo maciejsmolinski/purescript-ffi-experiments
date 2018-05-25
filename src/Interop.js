@@ -2,6 +2,10 @@
 
 exports.render = function(msg) {
   return function() {
-    document.querySelector('#ps-purs-ffi').textContent = msg;
+    var target = document.querySelector('#ps-purs-ffi');
+
+    if (target) {
+      target.textContent = msg;
+    }
   };
 };
