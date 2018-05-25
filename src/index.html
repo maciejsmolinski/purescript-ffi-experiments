@@ -1,4 +1,67 @@
 <html>
-<script src="./index.js"></script>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+</head>
+
+<style>
+    .logo {
+        background: rgba(0, 0, 0, .05);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 10px 0 0;
+    }
+
+    .logo>img {
+        opacity: .3;
+    }
+
+    .is-underlined {
+        border-bottom: 1px solid rgba(10, 10, 10, .1);
+    }
+
+    .is-300 {
+        font-weight: 300 !important;
+    }
+
+    .is-pushed-left {
+        margin-left: 10px;
+    }
+</style>
+
+<body>
+    <section class="hero is-small is-underlined">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-4">
+                    <a href="/" class="has-text-grey-dark">
+                        <span class="logo">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/svg/code.svg" width="15" height="15">
+                        </span>
+                        PureScript Experiments
+                        <span class="has-text-grey-light title is-6 is-300 is-pushed-left">
+                            PureScript FFI capabilities
+                        </span>
+                    </a>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="section">
+
+            <div class="content is-medium" id="ps-app">
+            </div>
+        </section>
+    </div>
+
+    <body>
+        <script src="./index.js"></script>
+    </body>
 
 </html>
