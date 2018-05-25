@@ -4,15 +4,18 @@ import Prelude
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
-import Interop (User(..), greet, message, user, render, RENDER)
+import DOM (DOM)
+import Interop (User(..), greet, message, user, render, RENDER) as I
+import PS as PS
 
-greetUser :: User -> String
-greetUser = greet <<< show
+greetUser :: I.User -> String
+greetUser = I.greet <<< show
 
-main :: forall e. Eff (console :: CONSOLE, render :: RENDER | e) Unit
+main :: forall e. Eff (console :: CONSOLE, render :: I.RENDER, dom :: DOM | e) Unit
 main = do
-  log message
-  log $ greet "from Purescript"
-  log $ greetUser user
-  log $ greetUser $ MkUser { name: "PureScriptOne" }
-  render "A message from PureScript!"
+  log I.message
+  log $ I.greet "from Purescript"
+  log $ greetUser I.user
+  log $ greetUser $ I.MkUser { name: "PureScriptOne" }
+  I.render "Message rendered using PureScript FFI"
+  PS.render "Message rendered using PureScript-DOM"
