@@ -1,4 +1,4 @@
-module PS (render) where
+module PS (render, module DOM) where
 
 import Control.Applicative (pure)
 import Control.Monad (bind)
