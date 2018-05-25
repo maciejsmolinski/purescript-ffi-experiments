@@ -1,7 +1,9 @@
 ## Install Dependencies
 
-`npm i -g purescript psc-package pulp`
+* `npm install -g purescript psc-package pulp`
+* `npm install`
 
 ## Build & Execute
 
-`pulp --watch run`
+* `pulp --watch run`
+* `npm run dev` or `npm run build`
