@@ -15,4 +15,4 @@ main = do
   log $ greet "from Purescript"
   log $ greetUser user
   log $ greetUser $ MkUser { name: "PureScriptOne" }
-  render "Message from PureScript!"
+  render "A message from PureScript!"
