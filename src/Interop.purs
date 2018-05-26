@@ -4,7 +4,8 @@ import Control.Monad.Eff (Eff, kind Effect)
 import Data.Unit (Unit)
 
 
-foreign import data RENDER :: Effect
+foreign import data HTML :: Effect
 
-foreign import render :: forall eff. String -> Eff (render :: RENDER | eff) Unit
+foreign import render :: forall eff. String -> Eff (html :: HTML | eff) Unit
 
+foreign import append :: forall eff. String -> Eff (html :: HTML | eff) Unit

@@ -9,3 +9,13 @@ exports.render = function(msg) {
     }
   };
 };
+
+exports.append = function(msg) {
+  return function() {
+    var template = document.querySelector('#ps-purs-ffi');
+    var target = template.cloneNode();
+
+    target.textContent = msg;
+    template.parentElement.appendChild(target);
+  };
+};
