@@ -2,7 +2,7 @@
 
 Experiments with [PureScript](http://www.purescript.org/) intended to result in learning how the Foreign Function Interface (FFI) in PureScript lets us talk to JavaScript and the other way around.
 
-![](/assets/preview-v2.png)
+![](/assets/preview-v3.png)
 
 ## Installing dependencies
 
