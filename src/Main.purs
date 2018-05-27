@@ -19,5 +19,6 @@ main = do
   I.render "Message rendered using PureScript FFI"
   PS.render "Message rendered using PureScript-DOM"
   I.append "Message appended using PureScript FFI"
+  PS.append "Message appended using PureScript-DOM"
   I.succeed onSuccess onFailure
   I.fail onSuccess onFailure
