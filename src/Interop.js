@@ -19,3 +19,31 @@ exports.append = function(msg) {
     template.parentElement.appendChild(target);
   };
 };
+
+exports.succeed = function(onSuccess) {
+  return function(onFailure) {
+    return function() {
+      Promise.resolve('Success')
+        .then(function(value) {
+          onSuccess(value)();
+        })
+        .catch(function(error) {
+          onFailure(error)();
+        });
+    };
+  };
+};
+
+exports.fail = function(onSuccess) {
+  return function(onFailure) {
+    return function() {
+      Promise.reject('Failure')
+        .then(function(value) {
+          onSuccess(value)();
+        })
+        .catch(function(error) {
+          onFailure(error)();
+        });
+    };
+  };
+};
