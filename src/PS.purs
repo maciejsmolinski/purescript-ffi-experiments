@@ -22,7 +22,7 @@ query selector = do
   querySelector selector parent
 
 target :: forall eff. Eff (dom :: DOM | eff) (Maybe Element)
-target = query $ QuerySelector "#ps-purs-dom"
+target = query $ QuerySelector ".ps-purs-dom"
 
 container :: forall eff. Eff (dom :: DOM | eff) (Maybe Element)
 container = query $ QuerySelector ".content"
