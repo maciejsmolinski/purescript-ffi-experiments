@@ -1,25 +1,23 @@
 module PS (render, append, module DOM) where
 
-import Control.Applicative (pure)
-import Control.Monad (bind)
+import Control.Applicative (pure, (<$>))
+import Control.Monad (bind, (>>=))
 import Control.Monad.Eff (Eff)
 import DOM (DOM)
 import DOM.HTML (window)
-import DOM.HTML.Types (htmlDocumentToDocument)
+import DOM.HTML.Types (htmlDocumentToParentNode)
 import DOM.HTML.Window (document)
 import DOM.Node.Node (appendChild, clone, setTextContent)
 import DOM.Node.ParentNode (QuerySelector(..), querySelector)
-import DOM.Node.Types (Element, documentToParentNode, elementToNode)
+import DOM.Node.Types (Element, elementToNode)
 import Data.Function (($))
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(Nothing, Just))
 import Data.Unit (Unit, unit)
 
 query :: forall eff. QuerySelector -> Eff (dom :: DOM | eff) (Maybe Element)
 query selector = do
-  win <- window
-  doc <- document win
-  let parent = documentToParentNode $ htmlDocumentToDocument doc
-  querySelector selector parent
+  doc <- htmlDocumentToParentNode <$> (window >>= document)
+  querySelector selector doc
 
 target :: forall eff. Eff (dom :: DOM | eff) (Maybe Element)
 target = query $ QuerySelector ".ps-purs-dom"
