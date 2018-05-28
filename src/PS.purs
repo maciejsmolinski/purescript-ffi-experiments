@@ -11,7 +11,7 @@ import DOM.Node.Node (appendChild, clone, setTextContent)
 import DOM.Node.ParentNode (QuerySelector(..), querySelector)
 import DOM.Node.Types (Element, Node, elementToNode)
 import Data.Function (id, ($))
-import Data.Maybe (Maybe(Just), maybe)
+import Data.Maybe (Maybe, maybe)
 import Data.Unit (Unit, unit)
 
 query :: forall eff. QuerySelector -> Eff (dom :: DOM | eff) (Maybe Element)
@@ -27,10 +27,8 @@ container = query $ QuerySelector ".content"
 
 render :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 render text = do
-  element <- target
-  case element of
-    (Just e) -> setTextContent text $ elementToNode e
-    _ -> pure unit
+  element <- map elementToNode <$> target
+  maybe (pure unit) (setTextContent text) element
 
 append :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 append text = do
