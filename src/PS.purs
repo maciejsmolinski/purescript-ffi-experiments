@@ -1,6 +1,6 @@
 module PS (render, append, module DOM) where
 
-import Control.Applicative (pure, (<$>))
+import Control.Applicative (pure, (<$>), (<*>))
 import Control.Monad (bind, (>>=))
 import Control.Monad.Eff (Eff)
 import DOM (DOM)
@@ -10,8 +10,8 @@ import DOM.HTML.Window (document)
 import DOM.Node.Node (appendChild, clone, setTextContent)
 import DOM.Node.ParentNode (QuerySelector(..), querySelector)
 import DOM.Node.Types (Element, elementToNode)
-import Data.Function (($))
-import Data.Maybe (Maybe(Nothing, Just))
+import Data.Function (id, ($))
+import Data.Maybe (Maybe(Just), maybe)
 import Data.Unit (Unit, unit)
 
 query :: forall eff. QuerySelector -> Eff (dom :: DOM | eff) (Maybe Element)
@@ -36,12 +36,11 @@ append :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 append text = do
   target' <- target
   container' <- container
-  case target' of
-    (Just t) -> case container' of
-      Just (c) -> do
-        newTarget <- clone $ elementToNode t
-        _ <- setTextContent text newTarget
-        _ <- appendChild newTarget (elementToNode c)
+  maybe (pure unit) id (cloneAndAppend <$> target' <*> container')
+  where
+    cloneAndAppend :: Element -> Element -> Eff (dom :: DOM | eff) Unit
+    cloneAndAppend element target = do
+        newElement <- clone $ elementToNode element
+        _ <- setTextContent text newElement
+        _ <- appendChild newElement (elementToNode target)
         pure unit
-      Nothing -> pure unit
-    Nothing -> pure unit
