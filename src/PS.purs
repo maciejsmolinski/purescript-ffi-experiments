@@ -25,12 +25,6 @@ target = query $ QuerySelector ".ps-purs-dom"
 container :: forall eff. Eff (dom :: DOM | eff) (Maybe Element)
 container = query $ QuerySelector ".content"
 
-template :: forall eff. String -> Eff (dom :: DOM | eff) Element
-template text = do
-  doc <- htmlDocumentToDocument <$> (window >>= document)
-  div <- createElement "div" doc
-  setClassName "notification is-info" div *> setTextContent text (elementToNode div) *> pure div
-
 withText :: forall eff. String -> Element -> Eff (dom :: DOM  | eff) Element
 withText text element = pure element <* setTextContent text (elementToNode element)
 
@@ -54,9 +48,9 @@ render text = do
 append :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 append text = do
   container' <- map elementToNode <$> container
-  maybe (pure unit) id (appendFromTemplate <$> container')
+  maybe (pure unit) id (appendNotification <$> container')
   where
-    appendFromTemplate :: Node -> Eff (dom :: DOM | eff) Unit
-    appendFromTemplate target = do
-        template'' <- elementToNode <$> notification text
-        appendChild template'' target *> pure unit
+    appendNotification :: Node -> Eff (dom :: DOM | eff) Unit
+    appendNotification target = do
+        notification' <- elementToNode <$> notification text
+        appendChild notification' target *> pure unit
