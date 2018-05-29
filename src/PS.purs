@@ -31,6 +31,18 @@ template text = do
   div <- createElement "div" doc
   setClassName "notification is-info" div *> setTextContent text (elementToNode div) *> pure div
 
+withText :: forall eff. String -> Element -> Eff (dom :: DOM  | eff) Element
+withText text element = pure element <* setTextContent text (elementToNode element)
+
+withClass :: forall eff. String -> Element -> Eff (dom :: DOM  | eff) Element
+withClass classname element = do
+  pure element <* setClassName classname element
+
+empty :: forall eff. Eff (dom :: DOM | eff) Element
+empty = do
+  doc <- htmlDocumentToDocument <$> (window >>= document)
+  createElement "div" doc
+
 render :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 render text = do
   element <- map elementToNode <$> target
@@ -43,5 +55,5 @@ append text = do
   where
     appendFromTemplate :: Node -> Eff (dom :: DOM | eff) Unit
     appendFromTemplate target = do
-        template'' <- elementToNode <$> template text
+        template'' <- elementToNode <$> (empty >>= withClass "notification is-info" >>= withText text)
         appendChild template'' target *> pure unit
