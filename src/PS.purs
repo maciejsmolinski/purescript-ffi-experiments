@@ -11,7 +11,7 @@ import DOM.Node.Document (createElement)
 import DOM.Node.Element (setClassName)
 import DOM.Node.Node (appendChild, setTextContent)
 import DOM.Node.ParentNode (QuerySelector(..), querySelector)
-import DOM.Node.Types (Element, Node, elementToNode)
+import DOM.Node.Types (Element, elementToNode)
 import Data.Maybe (Maybe, maybe)
 
 query :: forall eff. QuerySelector -> Eff (dom :: DOM | eff) (Maybe Element)
@@ -32,6 +32,11 @@ withClass :: forall eff. String -> Element -> Eff (dom :: DOM  | eff) Element
 withClass classname element = do
   pure element <* setClassName classname element
 
+withContainer :: forall eff. (Element -> Eff (dom :: DOM | eff) Unit) -> Eff (dom :: DOM | eff) Unit
+withContainer cb = do
+  container' <- container
+  maybe (pure unit) cb container'
+
 element :: forall eff. String -> Eff (dom :: DOM | eff) Element
 element tag = do
   doc <- htmlDocumentToDocument <$> (window >>= document)
@@ -47,10 +52,6 @@ render text = do
 
 append :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 append text = do
-  container' <- map elementToNode <$> container
-  maybe (pure unit) id (appendNotification <$> container')
-  where
-    appendNotification :: Node -> Eff (dom :: DOM | eff) Unit
-    appendNotification target = do
-        notification' <- elementToNode <$> notification text
-        appendChild notification' target *> pure unit
+  withContainer \container -> do
+    notification' <- elementToNode <$> notification text
+    appendChild notification' (elementToNode container) *> pure unit
