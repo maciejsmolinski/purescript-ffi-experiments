@@ -39,11 +39,9 @@ render text = do
 append :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 append text = do
   container' <- map elementToNode <$> container
-  maybe (pure unit) id (cloneAndAppend <$> container')
+  maybe (pure unit) id (appendFromTemplate <$> container')
   where
-    cloneAndAppend :: Node -> Eff (dom :: DOM | eff) Unit
-    cloneAndAppend target = do
-        newElement <- map elementToNode template
-        _ <- setTextContent text newElement
-        _ <- appendChild newElement target
-        pure unit
+    appendFromTemplate :: Node -> Eff (dom :: DOM | eff) Unit
+    appendFromTemplate target = do
+        template' <- map elementToNode template
+        setTextContent text template' *> appendChild template' target *> pure unit
