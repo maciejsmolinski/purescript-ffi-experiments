@@ -43,8 +43,8 @@ element tag = do
   doc <- htmlDocumentToDocument <$> (window >>= document)
   createElement tag doc
 
-empty :: forall eff. Eff (dom :: DOM | eff) Element
-empty = element "div"
+notification :: forall eff. String -> Eff (dom :: DOM | eff) Element
+notification text = element "div" >>= withClass "notification is-info" >>= withText text
 
 render :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 render text = do
@@ -58,5 +58,5 @@ append text = do
   where
     appendFromTemplate :: Node -> Eff (dom :: DOM | eff) Unit
     appendFromTemplate target = do
-        template'' <- elementToNode <$> (empty >>= withClass "notification is-info" >>= withText text)
+        template'' <- elementToNode <$> notification text
         appendChild template'' target *> pure unit
