@@ -6,8 +6,8 @@ Experiments with [PureScript](http://www.purescript.org/) intended to result in 
 
 ## Installing dependencies
 
-* Install purescript, pulp and psc-package globally `npm install -g purescript psc-package pulp`
-* Install project dependencies `npm install`
+* Install purescript, pulp and psc-package globally `npm install -g purescript@0.11.7 psc-package pulp`
+* Install project dependencies `npm install && psc-package install`
 
 ## Compiling the code and running the application in the browser
 
