@@ -29,8 +29,7 @@ template :: forall eff. Eff (dom :: DOM | eff) Element
 template = do
   doc <- htmlDocumentToDocument <$> (window >>= document)
   div <- createElement "div" doc
-  _ <- setClassName "notification is-info" div
-  pure div
+  setClassName "notification is-info" div *> pure div
 
 render :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 render text = do
