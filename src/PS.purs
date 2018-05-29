@@ -38,10 +38,13 @@ withClass :: forall eff. String -> Element -> Eff (dom :: DOM  | eff) Element
 withClass classname element = do
   pure element <* setClassName classname element
 
-empty :: forall eff. Eff (dom :: DOM | eff) Element
-empty = do
+element :: forall eff. String -> Eff (dom :: DOM | eff) Element
+element tag = do
   doc <- htmlDocumentToDocument <$> (window >>= document)
-  createElement "div" doc
+  createElement tag doc
+
+empty :: forall eff. Eff (dom :: DOM | eff) Element
+empty = element "div"
 
 render :: forall eff. String -> Eff (dom :: DOM | eff) Unit
 render text = do
